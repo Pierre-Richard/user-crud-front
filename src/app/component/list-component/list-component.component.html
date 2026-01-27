@@ -1,5 +1,15 @@
-<form>
-  <div *ngFor="let user of listUsers">
-    {{ user.firstname }} : {{ user.lastname }} : {{ user.email }}
+<form [formGroup]="userForm" (ngSubmit)="onRegister()">
+  <div>
+    <label>Firstname</label>
+    <input type="text" name="firstname" formControlName="firstname" />
+    <label>Lastname</label>
+    <input type="text" name="lastname" formControlName="lastname" />
+    <label>Email</label>
+    <input type="text" name="email" formControlName="email" />
+    <button type="submit">Add</button>
   </div>
 </form>
+<div *ngFor="let user of listUsers">
+  {{ user.firstname }} : {{ user.lastname }} : {{ user.email }}
+  <button (click)="deleteUser(user.id)">delete</button>
+</div>

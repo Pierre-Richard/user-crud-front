@@ -27,6 +27,36 @@ export class UserService {
   //5 - Je renvoie ce flux au composant pour qu’il puisse s’abonner et recevoir l'utilisateur
 
   public getUserById(user: User): Observable<User> {
-    return this.http.get<User>(APIBASEURL + `${user.id}`);
+    return this.http.get<User>(APIBASEURL + `/user/${user.id}`);
+  }
+
+  //1 - J’envoie une requête Post vers mon backend via HttpClient
+  //2 - Je construis l’URL complète vers l’endpoint /api/v1/users
+  //3 - Je passe cette URL à la méthode http.post() + user pour créer un l'utilisateur
+  //4 - Je récupère la réponse du backend sous forme d’un flux asynchrone
+  //5 - Je renvoie ce flux au composant pour qu’il puisse s’abonner et pour un l'utilisateur
+
+  public createUser(user: User): Observable<User> {
+    return this.http.post<User>(APIBASEURL + '/users', user);
+  }
+
+  //1 - J’envoie une requête Delete vers mon backend via HttpClient
+  //2 - Je construis l’URL complète vers l’endpoint /api/v1/users
+  //3 - Je passe cette URL à la méthode http.delete() + id du user que je veux supprimer
+  //4 - Je récupère la réponse du backend sous forme d’un flux asynchrone
+  //5 - Je renvoie ce flux au composant pour qu’il puisse s’abonner et supprimer un utilisateur
+
+  public deleteUser(id: number): Observable<any> {
+    return this.http.delete<User>(APIBASEURL + `/users/${id}`);
+  }
+
+  //1 - J’envoie une requête put vers mon backend via HttpClient
+  //2 - Je construis l’URL complète vers l’endpoint /api/v1/users
+  //3 - Je passe cette URL à la méthode http.put() + id du user et le objet(user) que je veux mettre à jour
+  //4 - Je récupère la réponse du backend sous forme d’un flux asynchrone
+  //5 - Je renvoie ce flux au composant pour qu’il puisse s’abonner e t mettre à jour un utilisateur
+
+  public updateUser(id: number, user: User): Observable<User> {
+    return this.http.put<User>(APIBASEURL + `/users/${id}`, user);
   }
 }
