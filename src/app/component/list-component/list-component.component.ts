@@ -81,4 +81,21 @@ export class ListComponentComponent implements OnInit {
       this.listUsers = userDeleted;
     });
   }
+
+  //gestion de la requete update
+  //1- Appeler la methode updateUser du userService pour renvoyer au backend la valeur mis à jour
+  //2- S'abonner au updateUser pour afficher l'utilisateur mise à jour
+  //3-afficher dans un console.log l'utilisateur mis à jour
+  //4-Mettre à jour utilisateur selectionné et le renvoyer dans le nouveau tableau
+  //5- ...
+
+  public updateUser(id: number, user: User): void {
+    this.userService.updateUser(id, user).subscribe((user) => {
+      console.log('utilisateur mis à jour: ', user);
+      let udpatedUser = this.listUsers.map((u) => {
+        return u.id === user.id ? user : u;
+      });
+      this.listUsers = udpatedUser;
+    });
+  }
 }
