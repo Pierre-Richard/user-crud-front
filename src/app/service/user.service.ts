@@ -20,16 +20,6 @@ export class UserService {
     return this.http.get<User[]>(APIBASEURL + '/users');
   }
 
-  //1 - J’envoie une requête GET vers mon backend via HttpClient
-  //2 - Je construis l’URL complète vers l’endpoint /api/v1/users
-  //3 - Je passe cette URL à la méthode http.get() + id pour recuperer l'utilisateur
-  //4 - Je récupère la réponse du backend sous forme d’un flux asynchrone
-  //5 - Je renvoie ce flux au composant pour qu’il puisse s’abonner et recevoir l'utilisateur
-
-  public getUserById(user: User): Observable<User> {
-    return this.http.get<User>(APIBASEURL + `/user/${user.id}`);
-  }
-
   //1 - J’envoie une requête Post vers mon backend via HttpClient
   //2 - Je construis l’URL complète vers l’endpoint /api/v1/users
   //3 - Je passe cette URL à la méthode http.post() + user pour créer un l'utilisateur
@@ -58,5 +48,15 @@ export class UserService {
 
   public updateUser(id: number, user: User): Observable<User> {
     return this.http.put<User>(APIBASEURL + `/users/${id}`, user);
+  }
+
+  //1 - J’envoie une requête get vers mon backend via HttpClient
+  //2 - Je construis l’URL complète vers l’endpoint /api/v1/users
+  //3 - Je passe cette URL à la méthode http.get() + id du user  que je veux recuperer
+  //4 - Je récupère la réponse du backend sous forme d’un flux asynchrone
+  //5 - Je renvoie ce flux au composant pour qu’il puisse s’abonner et l'utilisateur
+
+  public getUserById(id: number): Observable<User> {
+    return this.http.get<User>(APIBASEURL + `/users/${id}`);
   }
 }

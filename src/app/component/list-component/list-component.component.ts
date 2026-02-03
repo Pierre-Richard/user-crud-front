@@ -90,12 +90,29 @@ export class ListComponentComponent implements OnInit {
   //5- ...
 
   public updateUser(id: number, user: User): void {
+    // Les données passée la methode updateUser provienne du client
+    // user definis en parametre du soubscribe c'est le retour de l'api
     this.userService.updateUser(id, user).subscribe((user) => {
       console.log('utilisateur mis à jour: ', user);
+      // Pour que la mise à jour est lieu j'utilise la fonction map() qui me retourne
+      // un nouveau tableau avec l'utilise mis à jour
+      // la (la conditon) = si le user sur lequel je clique est également au user qui vient l'api
+      // alors mets à jour mon utilisateur sinon la valeur reste inchangé
+      //  // Je construis un nouveau tableau où SEULEMENT l'utilisateur modifié est remplacé
       let udpatedUser = this.listUsers.map((u) => {
         return u.id === user.id ? user : u;
       });
+      // Le user mis à jour je l'assigne à mon tableau listUsers
+      //// Mise à jour de la liste affichée
       this.listUsers = udpatedUser;
     });
+
+    //1. Je crée une route `/users/:id/edit` qui pointe vers mon composant d’édition.
+    //2. Quand je clique sur "Modifier" dans la liste, je redirige vers cette route avec l’id du user.
+    //3. Dans la page d’édition, je récupère l’id dans l’URL.
+    //4. Avec cet id, j’appelle le backend (getUserById) pour récupérer l’utilisateur.
+    //5. Je pré-remplis le formulaire avec les données de cet utilisateur.
+    //6. Quand je valide le formulaire, j’envoie les nouvelles données au backend (updateUser).
+    //7. Si la mise à jour est OK, je reviens à la liste des utilisateurs.
   }
 }
