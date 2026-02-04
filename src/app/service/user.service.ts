@@ -56,7 +56,7 @@ export class UserService {
   //4 - Je récupère la réponse du backend sous forme d’un flux asynchrone
   //5 - Je renvoie ce flux au composant pour qu’il puisse s’abonner et l'utilisateur
 
-  public getUserById(id: number): Observable<User> {
+  public getUser(id: number): Observable<User> {
     return this.http.get<User>(APIBASEURL + `/users/${id}`);
   }
 }

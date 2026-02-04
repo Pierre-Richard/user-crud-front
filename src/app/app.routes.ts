@@ -4,7 +4,7 @@ import { EdtiUserComponent } from './component/edti-user/edti-user.component';
 
 export const routes: Routes = [
   //Route liste utilisateurs
-  { path: '/users', component: ListComponentComponent },
+  { path: 'users', component: ListComponentComponent },
   // Route edition
-  { path: '/users/id/', component: EdtiUserComponent },
+  { path: 'users/:id/edit', component: EdtiUserComponent },
 ];

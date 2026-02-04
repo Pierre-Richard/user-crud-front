@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../service/user.service';
-import { User } from '../../interface/User';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import {
-  ReactiveFormsModule,
   FormBuilder,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { User } from '../../interface/User';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-list-component',
@@ -38,6 +38,7 @@ export class ListComponentComponent implements OnInit {
   constructor(
     private userService: UserService,
     private fb: FormBuilder,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -47,9 +48,9 @@ export class ListComponentComponent implements OnInit {
     });
 
     this.userForm = this.fb.group({
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
-      email: ['', Validators.email],
+      firstname: [''],
+      lastname: [''],
+      email: [''],
     });
   }
 
@@ -114,5 +115,14 @@ export class ListComponentComponent implements OnInit {
     //5. Je pré-remplis le formulaire avec les données de cet utilisateur.
     //6. Quand je valide le formulaire, j’envoie les nouvelles données au backend (updateUser).
     //7. Si la mise à jour est OK, je reviens à la liste des utilisateurs.
+  }
+
+  /**
+   * Cette fonction me dirige vers utilisateur que je veux modifier
+   *
+   * @param id
+   */
+  public navigateToUserId(id: number) {
+    this.router.navigate([`users/${id}/edit`]);
   }
 }
