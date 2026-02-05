@@ -62,7 +62,12 @@ export class ListComponentComponent implements OnInit {
         // afficher l'utilisateur créé
         (console.log('utilisateur créé', user),
           //l’ajouter à listUsers
-          this.listUsers.push(user));
+          //this.listUsers.push(user)
+          //Rafraîchir la liste après création
+          this.userService.getAllUsers().subscribe((users) => {
+            this.listUsers = users;
+          }));
+
         // reset le formulaire
         this.userForm.reset();
       });
@@ -73,13 +78,15 @@ export class ListComponentComponent implements OnInit {
   deleteUser(id: number): void {
     //Appeler la methode deleteUser du userService pour renvoyer au backend la valeur supprimé
     // S'abonner au deleteUser pour afficher l'utilisateur supprimer
-    this.userService.deleteUser(id).subscribe((user) => {
+    // subscribe() = “quand le backend a fini, fais ceci
+    this.userService.deleteUser(id).subscribe(() => {
       // affichier dans un console.log la valeur supprimée
-      console.log('utilisateur supprimé', user);
+      console.log('suppression OK', id);
       // supprimer le utilisateur et renvoyer le tableau avec les nouvelles valeurs
-      let userDeleted = this.listUsers.filter((user) => user.id !== id);
-      // mettre à jour le tableau avec utilisateur supprimer
-      this.listUsers = userDeleted;
+      this.userService.getAllUsers().subscribe((users) => {
+        // mettre à jour le tableau avec utilisateur supprimer
+        this.listUsers = users;
+      });
     });
   }
 
@@ -100,12 +107,16 @@ export class ListComponentComponent implements OnInit {
       // la (la conditon) = si le user sur lequel je clique est également au user qui vient l'api
       // alors mets à jour mon utilisateur sinon la valeur reste inchangé
       //  // Je construis un nouveau tableau où SEULEMENT l'utilisateur modifié est remplacé
-      let udpatedUser = this.listUsers.map((u) => {
-        return u.id === user.id ? user : u;
-      });
+      //let udpatedUser = this.listUsers.map((u) => {
+      //return u.id === user.id ? user : u;
+      //});
       // Le user mis à jour je l'assigne à mon tableau listUsers
       //// Mise à jour de la liste affichée
-      this.listUsers = udpatedUser;
+      //this.listUsers = udpatedUser
+      //
+      this.userService.getAllUsers().subscribe((users) => {
+        this.listUsers = users;
+      });
     });
 
     //1. Je crée une route `/users/:id/edit` qui pointe vers mon composant d’édition.

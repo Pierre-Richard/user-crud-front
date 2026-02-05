@@ -1,15 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../service/user.service';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { first } from 'rxjs';
-import { User } from '../../interface/User';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-edti-user',
@@ -38,6 +31,7 @@ export class EdtiUserComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       this.userId = params['id'];
       this.userService.getUser(this.userId).subscribe((user) => {
+        // via au patchValue je peux afficher mes données dans mon formulaire
         this.editForm.patchValue({
           firstname: user.firstname,
           lastname: user.lastname,
@@ -54,21 +48,15 @@ export class EdtiUserComponent implements OnInit {
     if (this.editForm.valid) {
       //Je récupère l’id (celui de la route)
 
-      //J’appelle userService.updateUser(id, data)
+      //J’appelle userService.updateUser(id, this.editForm.value) qui me sert à e,voyer mes données au backend
       this.userService
         .updateUser(this.userId, this.editForm.value)
         .subscribe((user) => {
+          console.log('response from backend', user);
+          //Si succès => je navigue vers /users (ou je rafraîchis la liste)
+          this.router.navigate(['/users']);
           // Je récupère les valeurs du formulaire (firstname/lastname/email)
-          this.editForm.setValue({
-            firstname: user.firstname,
-            lastname: user.lastname,
-            email: user.email,
-          });
         });
-
-      this.router.navigate(['/users']);
     }
-
-    //Si succès → je navigue vers /users (ou je rafraîchis la liste)
   }
 }
