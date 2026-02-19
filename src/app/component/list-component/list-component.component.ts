@@ -1,22 +1,32 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../../interface/User';
 import { UserService } from '../../service/user.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-list-component',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDividerModule,
+  ],
   templateUrl: './list-component.component.html',
   styleUrl: './list-component.component.scss',
 })
 export class ListComponentComponent implements OnInit {
+  public isLoading: boolean = false;
+  public errorMessage: string | null = null;
+  public successMessage: string | null = null;
+
   //- 1 injecter via constructeur le userService dans le composant ok
   //-2 Declarer une variable listUsers qui lui, recuperera la liste des users ok
   //-3 à la creation du composant, lui donner cette variable pour avoir la liste des users ok

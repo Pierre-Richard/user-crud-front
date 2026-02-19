@@ -1,14 +1,28 @@
-<form [formGroup]="userForm" (ngSubmit)="onRegister()">
-  <div>
-    <label>Firstname</label>
-    <input type="text" name="firstname" formControlName="firstname" />
-    <label>Lastname</label>
-    <input type="text" name="lastname" formControlName="lastname" />
-    <label>Email</label>
-    <input type="text" name="email" formControlName="email" />
-    <button type="submit">Add</button>
-  </div>
-</form>
+<div class="formulaire">
+  <form [formGroup]="userForm" (ngSubmit)="onRegister()">
+    <mat-form-field>
+      <mat-label>Firstname</mat-label>
+      <input
+        matInput
+        type="text"
+        name="firstname"
+        formControlName="firstname"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Lastname</mat-label>
+      <input matInput type="text" name="lastname" formControlName="lastname" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput type="text" name="email" formControlName="email" />
+    </mat-form-field>
+    <div class="bouton">
+      <button matButton type="submit" mat-raised-button>Add</button>
+    </div>
+  </form>
+</div>
+
 <div *ngFor="let user of listUsers">
   {{ user.firstname }} : {{ user.lastname }} : {{ user.email }}
   <button (click)="deleteUser(user.id)">delete</button>

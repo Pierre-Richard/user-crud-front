@@ -1,0 +1,17 @@
+:host {
+  .formulaire {
+    display: flex;
+    justify-content: center;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 45%;
+  }
+
+  .bouton {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

@@ -3,11 +3,12 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../interface/User';
 import { APIBASEURL } from '../environnements/environnements.';
-
+import { RequestState } from '../interface/RequestState';
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  public createState!: RequestState;
   constructor(private http: HttpClient) {}
 
   //1 - J’envoie une requête GET vers mon backend via HttpClient
