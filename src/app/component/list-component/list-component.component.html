@@ -24,7 +24,7 @@
 </div>
 
 <div *ngFor="let user of listUsers">
-  {{ user.firstname }} : {{ user.lastname }} : {{ user.email }}
+  {{ user.firstName }} : {{ user.lastName }} : {{ user.email }}
   <button (click)="deleteUser(user.id)">delete</button>
   <button (click)="navigateToUserId(user.id)">Edit</button>
 </div>

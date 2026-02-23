@@ -33,8 +33,8 @@ export class EdtiUserComponent implements OnInit {
       this.userService.getUser(this.userId).subscribe((user) => {
         // via au patchValue je peux afficher mes données dans mon formulaire
         this.editForm.patchValue({
-          firstname: user.firstname,
-          lastname: user.lastname,
+          firstname: user.firstName,
+          lastname: user.lastName,
           email: user.email,
         });
       });

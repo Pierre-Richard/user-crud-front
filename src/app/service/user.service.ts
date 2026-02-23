@@ -18,7 +18,7 @@ export class UserService {
   //5 - Je renvoie ce flux au composant pour qu’il puisse s’abonner et recevoir la liste
 
   public getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(APIBASEURL + '/users');
+    return this.http.get<User[]>(APIBASEURL);
   }
 
   //1 - J’envoie une requête Post vers mon backend via HttpClient
@@ -28,7 +28,7 @@ export class UserService {
   //5 - Je renvoie ce flux au composant pour qu’il puisse s’abonner et pour un l'utilisateur
 
   public createUser(user: User): Observable<User> {
-    return this.http.post<User>(APIBASEURL + '/users', user);
+    return this.http.post<User>(APIBASEURL, user);
   }
 
   //1 - J’envoie une requête Delete vers mon backend via HttpClient
@@ -38,7 +38,7 @@ export class UserService {
   //5 - Je renvoie ce flux au composant pour qu’il puisse s’abonner et supprimer un utilisateur
 
   public deleteUser(id: number): Observable<any> {
-    return this.http.delete<User>(APIBASEURL + `/users/${id}`);
+    return this.http.delete<User>(APIBASEURL + `/${id}`);
   }
 
   //1 - J’envoie une requête put vers mon backend via HttpClient
@@ -48,7 +48,7 @@ export class UserService {
   //5 - Je renvoie ce flux au composant pour qu’il puisse s’abonner e t mettre à jour un utilisateur
 
   public updateUser(id: number, user: User): Observable<User> {
-    return this.http.put<User>(APIBASEURL + `/users/${id}`, user);
+    return this.http.put<User>(APIBASEURL + `/${id}`, user);
   }
 
   //1 - J’envoie une requête get vers mon backend via HttpClient
@@ -58,6 +58,6 @@ export class UserService {
   //5 - Je renvoie ce flux au composant pour qu’il puisse s’abonner et l'utilisateur
 
   public getUser(id: number): Observable<User> {
-    return this.http.get<User>(APIBASEURL + `/users/${id}`);
+    return this.http.get<User>(APIBASEURL + `/${id}`);
   }
 }
