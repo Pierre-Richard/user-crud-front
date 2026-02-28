@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import { ListComponentComponent } from './component/list-component/list-component.component';
+
 import { EdtiUserComponent } from './component/edti-user/edti-user.component';
+import { ListComponentComponent } from './component/list-component/list-component.component';
 
 export const routes: Routes = [
   //Route liste utilisateurs

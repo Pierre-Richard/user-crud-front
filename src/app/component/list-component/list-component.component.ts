@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { User } from '../../interface/User';
-import { UserService } from '../../service/user.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { RequestState } from '../../interface/RequestState';
+import { User } from '../../interface/User';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-list-component',
@@ -23,10 +25,6 @@ import { MatDividerModule } from '@angular/material/divider';
   styleUrl: './list-component.component.scss',
 })
 export class ListComponentComponent implements OnInit {
-  public isLoading: boolean = false;
-  public errorMessage: string | null = null;
-  public successMessage: string | null = null;
-
   //- 1 injecter via constructeur le userService dans le composant ok
   //-2 Declarer une variable listUsers qui lui, recuperera la liste des users ok
   //-3 à la creation du composant, lui donner cette variable pour avoir la liste des users ok
@@ -45,11 +43,15 @@ export class ListComponentComponent implements OnInit {
 
   public listUsers: User[] = [];
   public userForm!: FormGroup;
+  public exoposeState$!: Observable<RequestState>;
+
   constructor(
     private userService: UserService,
     private fb: FormBuilder,
     private router: Router,
-  ) {}
+  ) {
+    this.exoposeState$ = this.userService.state$;
+  }
 
   ngOnInit() {
     this.userService.getAllUsers().subscribe((user) => {
@@ -57,10 +59,13 @@ export class ListComponentComponent implements OnInit {
       this.listUsers = user;
     });
 
+    //this.userService.state$;
+
     this.userForm = this.fb.group({
       firstname: [''],
       lastname: [''],
       email: [''],
+      password: [''],
     });
   }
 
@@ -69,14 +74,9 @@ export class ListComponentComponent implements OnInit {
     if (this.userForm.valid) {
       //Retourner les valeurs de mon formulaire à mon backend
       this.userService.createUser(this.userForm.value).subscribe((user) => {
-        // afficher l'utilisateur créé
-        (console.log('utilisateur créé', user),
-          //l’ajouter à listUsers
-          //this.listUsers.push(user)
-          //Rafraîchir la liste après création
-          this.userService.getAllUsers().subscribe((users) => {
-            this.listUsers = users;
-          }));
+        console.log('utilisateur créé', user);
+        //ajout de user à la liste user
+        this.listUsers.push(user);
 
         // reset le formulaire
         this.userForm.reset();
@@ -90,13 +90,7 @@ export class ListComponentComponent implements OnInit {
     // S'abonner au deleteUser pour afficher l'utilisateur supprimer
     // subscribe() = “quand le backend a fini, fais ceci
     this.userService.deleteUser(id).subscribe(() => {
-      // affichier dans un console.log la valeur supprimée
-      console.log('suppression OK', id);
-      // supprimer le utilisateur et renvoyer le tableau avec les nouvelles valeurs
-      this.userService.getAllUsers().subscribe((users) => {
-        // mettre à jour le tableau avec utilisateur supprimer
-        this.listUsers = users;
-      });
+      this.listUsers = this.listUsers.filter((user) => user.id !== id);
     });
   }
 
@@ -117,16 +111,12 @@ export class ListComponentComponent implements OnInit {
       // la (la conditon) = si le user sur lequel je clique est également au user qui vient l'api
       // alors mets à jour mon utilisateur sinon la valeur reste inchangé
       //  // Je construis un nouveau tableau où SEULEMENT l'utilisateur modifié est remplacé
-      //let udpatedUser = this.listUsers.map((u) => {
-      //return u.id === user.id ? user : u;
-      //});
+      let udpatedUser = this.listUsers.map((u) => {
+        return u.id === user.id ? user : u;
+      });
       // Le user mis à jour je l'assigne à mon tableau listUsers
       //// Mise à jour de la liste affichée
-      //this.listUsers = udpatedUser
-      //
-      this.userService.getAllUsers().subscribe((users) => {
-        this.listUsers = users;
-      });
+      this.listUsers = udpatedUser;
     });
 
     //1. Je crée une route `/users/:id/edit` qui pointe vers mon composant d’édition.
